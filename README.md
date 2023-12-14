@@ -2,8 +2,8 @@
 
 Code for the simulations in the paper "Covering one point process with another" by Frankie Higgs, Mathew D. Penrose and Xiaochuan Yang.
 
-We place $n$ points $X_1, \dots, X_n$ in a region $A \subseteq \mathbb{R}^d$, which we think of as transmitters,
-and $m$ points $Y_1, \dots, Y_m$ in a region $B \subseteq A$, which we think of as receivers.
+We place $n$ points $X_1, \dots, X_n$ chosen uniformly at random in a region $A \subseteq \mathbb{R}^d$, which we think of as transmitters,
+and $m$ points $Y_1, \dots, Y_m$ chosen uniformly at random in $B \subseteq A$, which we think of as receivers.
 
 We use each $X_i$ as the centre of a ball of radius $r$.
 The two-sample $k$-coverage threshold $R_{n,m,k}$ is defined as the smallest $r$ so that each receiver $Y_j$ is within distance $r$ of at least $k$ transmitters.
