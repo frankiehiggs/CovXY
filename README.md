@@ -1,7 +1,5 @@
 # CovXY
 
- Code which generated the diagrams in the paper "Largest nearest-neighbour link and connectivity threshold in a polytopal random sample" by Mathew D. Penrose, Xiaochuan Yang and Frankie Higgs. 
-
 Code for the simulations in the paper "Covering one point process with another" by Frankie Higgs, Mathew D. Penrose and Xiaochuan Yang.
 
 We place $n$ points $X_1, \dots, X_n$ in a region $A \subseteq \mathbb{R}^d$, which we think of as transmitters,
