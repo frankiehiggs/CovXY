@@ -1,7 +1,7 @@
 """
 Samples R_{m,n,k} in the setting of Theorem 2.1,
 i.e. covering B with closure(B) \subseteq interior(A).
-In particular we cover B(0,0.99) using points placed in B(0,1).
+In particular we cover B(0, 0.9) using points placed in B(0, 1).
 """
 import numpy as np
 import matplotlib.pyplot as plt
