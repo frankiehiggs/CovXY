@@ -37,6 +37,7 @@ def c_dk(d,k):
         return (theta(d)**(1 - 1/d) * (1 - 1/d)**(k-2+ 1/d))/(np.math.factorial(k-1)*2**(1-1/d) * theta(d-1))
 
 def sigma_A(d):
+    # Returns sigma_A when A is the unit ball B(o,1).
     return d * (theta(d)**(1/d))
 
 @jit(nopython=True,parallel=False)
@@ -185,8 +186,10 @@ def lhs_quantity( R, n, k, d ):
 @jit
 def generate_R_samples(n, m, d, k, number_of_samples=2):
     """
-    Produces samples of the coverage threshold R_{n,m}.
+    Samples from the distribution of the two-sample coverage threshold.
     This function takes up the majority of the runtime.
+    It returns lhs_quantity(R_{n,m,k}),
+    not R_{n,m,k} itself.
     """
     samples = np.empty(number_of_samples)
     progress = tqdm(range(number_of_samples))
@@ -213,7 +216,7 @@ def generate_R_samples(n, m, d, k, number_of_samples=2):
             progress.set_description("Step 4/4: measure distances")
             distances = tree.query(Yn,k=k)[0][:,k-1]
             samples[s] = np.max( distances )
-    return samples
+    return lhs_quantity(samples,n,k,d)
 
 if __name__=='__main__':
     # Arguments for the script are: n, tau, d, k, batch_size

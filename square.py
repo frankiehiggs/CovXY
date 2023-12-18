@@ -69,8 +69,10 @@ def lhs_quantity( R, n, k ):
 @jit
 def generate_R_samples(n, m, k, number_of_samples=2):
     """
-    Produces samples of the coverage threshold R_{n,m}.
+    Produces samples of the two-sample coverage threshold.
     This function takes up the majority of the runtime.
+    It returns lhs_quantity(R_{n,m,k}),
+    not R_{n,m,k} itself.
     """
     samples = np.empty(number_of_samples)
     progress = tqdm(range(number_of_samples))
@@ -89,12 +91,12 @@ def generate_R_samples(n, m, k, number_of_samples=2):
     else:
         for s in progress:
             progress.set_description("Step 1/4: sampling n points")
-            Xn = sample_point(d, n)
+            Xn = sample_point(n)
             progress.set_description("Step 2/4: building k-d tree")
             tree = KDTree(Xn)
             progress.set_description("Step 3/4: sampling m points")
-            Yn = sample_point(d, m)
+            Yn = sample_point(m)
             progress.set_description("Step 4/4: measure distances")
             distances = tree.query(Yn,k=k)[0][:,k-1]
             samples[s] = np.max( distances )
-    return samples
+    return lhs_quantity(samples,n,k)

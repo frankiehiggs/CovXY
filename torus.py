@@ -83,8 +83,10 @@ def generate_Rk(n,m,d,k):
 @jit
 def generate_R_samples(n, m, d, k, number_of_samples=2):
     """
-    Produces samples of the coverage threshold R_{n,m}.
+    Produces samples of the two-sample coverage threshold.
     This function takes up the majority of the runtime.
+    It returns lhs_quantity(R_{n,m,k}),
+    not R_{n,m,k} itself.
     """
     samples = np.empty(number_of_samples)
     progress = tqdm(range(number_of_samples))
@@ -112,4 +114,4 @@ def generate_R_samples(n, m, d, k, number_of_samples=2):
     else:
         for s in progress:
             samples[s] = generate_Rk(n,m,d,k)
-    return samples
+    return lhs_quantity(samples,n,k,d)

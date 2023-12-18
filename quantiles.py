@@ -72,10 +72,10 @@ def compute_quantiles(required_quantiles,abs_tolerance,rel_tolerance,confidence,
     and with the given confidence level.
     
     model_params are the arguments to sampling_function,
-    which should be the function returning samples of R_{n,m,k}
+    which should be the function returning samples of
+    n f_0 theta_d R_{n,m,k}^d - c_1 log(n) - c_2 loglog(n)
     for whichever setting we are considering.
-    These are usually n, m, d, k and the batch size.
-    The batch size should always be last, for technical purposes.
+    The parameters are usually n, m, d, k and the batch size.
     """
     try:
         samples = np.genfromtxt(filename)
@@ -87,12 +87,11 @@ def compute_quantiles(required_quantiles,abs_tolerance,rel_tolerance,confidence,
         samples = sampling_function(*model_params)
         save_data(filename, samples)
     samples.sort()
-    N = samples.size
     # Create the (r,s) pairs and check if the tolerance is met.
     # If the batch_size is too small this can cause a problem.
     pairs_list = [(0,0)]*len(required_quantiles)
     for i,p in enumerate(required_quantiles):
-        pairs_list[i] = find_rs(p, N, confidence)
+        pairs_list[i] = find_rs(p, samples.size, confidence)
     attempts = 1
     while not meets_tolerances(samples, pairs_list, abs_tolerance,rel_tolerance):
         print(f'\nContinuing the simulation with parameters {model_params}.')
@@ -104,12 +103,11 @@ def compute_quantiles(required_quantiles,abs_tolerance,rel_tolerance,confidence,
         save_data(filename, new_samples)
         new_samples.sort()
         samples = insert_new_elements(samples, new_samples)
-        N += batch_size
         for i,p in enumerate(required_quantiles):
-            pairs_list[i] = find_rs(p,N,confidence)
+            pairs_list[i] = find_rs(p,samples.size,confidence)
     quantiles = np.empty(shape=(len(required_quantiles)))
     for i, p in enumerate(required_quantiles):
-        quantiles[i] = samples[int(p*N)-1]
+        quantiles[i] = samples[int(p*samples.size)-1]
     return quantiles
 
 def ten_percentiles(abs_tolerance,rel_tolerance,confidence,filename,sampling_function,*model_params):
@@ -120,5 +118,4 @@ def ten_percentiles(abs_tolerance,rel_tolerance,confidence,filename,sampling_fun
     desired_quantiles = np.linspace(start=0.1,stop=0.9,num=9)
     quantiles = compute_quantiles(desired_quantiles, abs_tolerance,rel_tolerance,confidence,filename,sampling_function,*model_params)
     return quantiles
-
 
