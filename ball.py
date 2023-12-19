@@ -183,9 +183,6 @@ def lhs_quantity( R, n, k, d ):
     else:
         return n*np.power(R,d) - (2 - 2/d)*np.log(n) - (2*k - 4 + 2/d)*np.log(np.log(n))
 
-# To do: try a speed test with @jit removed here.
-# The nopython=False mode is deprecated so it'd be good if I removed it.
-@jit
 def generate_R_samples(n, m, d, k, number_of_samples=2):
     """
     Samples from the distribution of the two-sample coverage threshold.

@@ -66,7 +66,6 @@ def lhs_quantity( R, n, k ):
     else:
         return n*np.pi*f0*np.square(R) - np.log(n) - (2*k - 3)*np.log(np.log(n))
 
-@jit
 def generate_R_samples(n, m, k, number_of_samples=2):
     """
     Produces samples of the two-sample coverage threshold.

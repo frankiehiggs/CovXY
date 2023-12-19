@@ -80,7 +80,6 @@ def generate_Rk(n,m,d,k):
         k_nearest_dists[j] = closest_k[-1]
     return np.sqrt(max(k_nearest_dists))
 
-@jit
 def generate_R_samples(n, m, d, k, number_of_samples=2):
     """
     Produces samples of the two-sample coverage threshold.

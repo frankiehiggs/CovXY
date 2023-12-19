@@ -38,7 +38,6 @@ def lhs_quantity( R, n, k, d ):
     f0 = 1/THETA_d
     return n*THETA_d*f0*(R**d) - np.log(n) - (k-1)*np.log(np.log(n))
 
-@jit
 def generate_R_samples(n, m, d, k, number_of_samples=2, shrinkage_factor=0.9):
     """
     Produces samples of the two-sample coverage threshold.

@@ -44,6 +44,30 @@ def plot_diagram(data_location,diagram_filename,xlow,xhigh,title,thm_number,lim_
     fig.savefig(diagram_filename)
     plt.close()
 
+def limit_diagram(data_location,diagram_filename,xlow,xhigh,title,thm_number,lim_fn,*model_params):
+    """
+    Plots the same thing as plot_diagram, but without the corrected limit.
+    model_params should be (tau,d,k) (for ball.py and torus.py),
+    or (tau,k) (for square.py and BinsideA.py).
+    """
+    fig, ax = plt.subplots()
+    samples = np.genfromtxt(data_location)
+    samples.sort()
+    ax.plot(samples, (np.arange(samples.size)+1)/samples.size, 'b', linewidth=2, label="Empirical distribution")
+    my_range = np.arange(xlow, xhigh, 0.01)
+    p_lim = lim_fn(my_range, *model_params)
+    ax.plot(my_range,p_lim,'k--',linewidth=2,label=f'Limiting cdf from Theorem {thm_number}')
+    ax.set_ylim(0,1)
+    ax.set_xlim(xlow,xhigh)
+    ax.legend(loc='lower right')
+    ax.set_title(title)
+    ax.set_xlabel('$\\beta$')
+    ax.set_ylabel('')
+    fig.tight_layout()
+    fig.set_size_inches(4.8, 6.4) # This gave us an ok size on the page.
+    fig.savefig(diagram_filename)
+    plt.close()
+
 def gamma_diagram(data_location,diagram_filename,xlow,xhigh,title,thm_number,*model_params):
     """
     Plots the diagram with exp(-tau * gamma_n) on it
