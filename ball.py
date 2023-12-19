@@ -135,7 +135,7 @@ def corrected_limit(beta, tau, d, k, n,subtract_median=False):
     # need to do it again in limit().
     return np.exp(-correction)*limit(beta,tau,d,k,subtract_median=False)
 
-def compute_gamma(beta, t,d,k):
+def compute_gamma(beta, d,k,t):
     """
     Numerically computes gamma_t for the gamma defined just before
     Lemma 4.1
@@ -183,6 +183,8 @@ def lhs_quantity( R, n, k, d ):
     else:
         return n*np.power(R,d) - (2 - 2/d)*np.log(n) - (2*k - 4 + 2/d)*np.log(np.log(n))
 
+# To do: try a speed test with @jit removed here.
+# The nopython=False mode is deprecated so it'd be good if I removed it.
 @jit
 def generate_R_samples(n, m, d, k, number_of_samples=2):
     """

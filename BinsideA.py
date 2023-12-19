@@ -1,16 +1,14 @@
 """
 Samples R_{m,n,k} in the setting of Theorem 2.1,
 i.e. covering B with closure(B) \subseteq interior(A).
-In particular we cover B(0, 0.9) using points placed in B(0, 1).
+In the simulation used for the paper's diagrams,
+we covered B = B(o, 0.9) using points placed in A = B(o, 1).
 """
 import numpy as np
 import matplotlib.pyplot as plt
 #from scipy.spatial import KDTree
 from numba_kdtree import KDTree
-from scipy.stats import norm
 from scipy.stats import binom
-from scipy.stats import poisson
-from scipy.integrate import quad
 from tqdm import tqdm
 import sys
 from numba import jit

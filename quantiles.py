@@ -114,6 +114,11 @@ def ten_percentiles(abs_tolerance,rel_tolerance,confidence,filename,sampling_fun
     """
     Computes the 10th, 20th, ..., 90th percentiles
     to the given tolerance and confidence.
+    
+    model_params is either (n, m, d, k, batch_size)
+    if we're using generate_R_samples from ball.py, torus.py or BinsideA.py
+    as our sampling_function, or (n,m,k,batch_size)
+    if using square.py.
     """
     desired_quantiles = np.linspace(start=0.1,stop=0.9,num=9)
     quantiles = compute_quantiles(desired_quantiles, abs_tolerance,rel_tolerance,confidence,filename,sampling_function,*model_params)

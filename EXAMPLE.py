@@ -7,8 +7,8 @@ and plot the appropriate diagrams.
 To generate a large number of samples,
 we only need to call the function ten_percentiles
 from quantiles.py
-Also import generate_R_samples from whichever of the other files
-you like, ball.py, BinsideA.py, square.py or torus.py
+Also import the function generate_R_samples from
+any of ball.py, BinsideA.py, square.py or torus.py
 """
 from quantiles import ten_percentiles
 from torus import generate_R_samples
@@ -25,6 +25,7 @@ width,confidence = 0.1,0.95
 batch_size = 2000
 
 qs = ten_percentiles(width,width,confidence,filename,generate_R_samples,n,m,d,k,batch_size)
+
 for i,q in enumerate(qs):
     print(f'The {10*(i+1)}th percentile is {q:.3f}.')
 
