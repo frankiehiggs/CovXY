@@ -11,3 +11,8 @@ The two-sample $k$-coverage threshold $R_{n,m,k}$ is defined as the smallest $r$
 In the paper we prove (for explicitly known constants $c_1$ and $c_2$) that if $m/n \to \tau$ for a $\tau > 0$ as $n \to \infty$, then $(\theta_d / |A|) n R_{n,m,k}^d - c_1 \log n - c_2 \log\log n$ (where $\theta_d$ is the volume of the $d$-dimensional unit ball, and $|A|$ is the volume of $A$) converges in distribution to a random variable, whose distribution we give.
 
 This code generates samples of the convergent quantity $(\theta_d / |A|) n R_{n,m,k}^d - c_1 \log n - c_2 \log\log n$, and plots the empirical distribution on the same axes as the limiting distribution.
+
+-
+
+To do:
+- List dependencies
