@@ -19,13 +19,14 @@ from scipy.integrate import quad
 from tqdm import tqdm
 import sys
 from numba import jit
+from math import gamma, factorial
 
 # Derived quantities
 def theta(d):
     """
     Returns the volume of the d-dimensional unit ball.
     """
-    return np.pi**(d/2) / np.math.gamma(d/2 + 1)
+    return np.pi**(d/2) / gamma(d/2 + 1)
 
 def c_dk(d,k):
     if k==1:
@@ -34,7 +35,7 @@ def c_dk(d,k):
         else:
             return (1/theta(d-1)) * (theta(d)/(2 - 2/d))**(1 - 1/d)
     else:
-        return (theta(d)**(1 - 1/d) * (1 - 1/d)**(k-2+ 1/d))/(np.math.factorial(k-1)*2**(1-1/d) * theta(d-1))
+        return (theta(d)**(1 - 1/d) * (1 - 1/d)**(k-2+ 1/d))/(factorial(k-1)*2**(1-1/d) * theta(d-1))
 
 def sigma_A(d):
     # Returns sigma_A when A is the unit ball B(o,1).
@@ -118,11 +119,14 @@ def corrected_limit(beta, tau, d, k, n,subtract_median=False):
     elif d==2 and k==2:
         # Theorem 2.3, equation (2.7)
         if subtract_median:
-            r = 0.125*np.sqrt(np.pi)*SIGMA_A*(1 + 0.5*np.log(np.log(n))/np.log(n))
-            median = -2*np.log( np.sqrt(r*r + np.log(2)/tau ) - r )
-            # The above is the median of the corrected cdf
+            # To find the median of the corrected cdf
+            # we simply solve a quadratic.
+            a = tau * (1 + np.log(np.log(n))/np.log(n))
+            b = tau * SIGMA_A * 0.25 * np.sqrt(np.pi) * (1 + 0.5*np.log(np.log(n))/np.log(n))
+            root = (-b + np.sqrt(b*b + 4*a*np.log(2)))/(2*a)
+            median = -2*np.log(root)
             beta = beta + median
-        correction = tau * np.sqrt(np.pi) * SIGMA_A * np.exp(-0.5*beta) * np.log(np.log(n)) / (8 * np.log(n))
+        correction = (tau * np.log(np.log(n)) / np.log(n)) * (np.exp(-beta) + SIGMA_A*np.sqrt(np.pi)*np.exp(-0.5*beta)/8)
     else:
         # Theorem 2.3, equation (2.9)
         if subtract_median:
