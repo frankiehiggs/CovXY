@@ -13,6 +13,7 @@ from tqdm import tqdm
 import sys
 from numba import jit
 from ball import theta, c_dk, sigma_A, sample_point
+from math import factorial
 
 def limit( beta, tau, k ):
     """
@@ -20,13 +21,13 @@ def limit( beta, tau, k ):
     This is not the limiting cdf of R_{n,m,k} itself,
     but of the derived quantity n theta(d) f_0 R^d - log...
     """
-    return np.exp( - tau * np.exp(-beta) / np.math.factorial(k-1) )
+    return np.exp( - tau * np.exp(-beta) / factorial(k-1) )
 
 def corrected_limit(beta, tau, k, n):
     """
     Returns the "corrected limit" from Theorem 2.1.
     """
-    correction = tau * np.exp(-beta) * (k-1)**2 * np.log(np.log(n)) / ( np.math.factorial(k-1) * np.log(n) )
+    correction = tau * np.exp(-beta) * (k-1)**2 * np.log(np.log(n)) / ( factorial(k-1) * np.log(n) )
     return np.exp(-correction)*limit(beta,tau,k)
 
 def lhs_quantity( R, n, k, d ):

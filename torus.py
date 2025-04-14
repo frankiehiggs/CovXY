@@ -10,6 +10,7 @@ from tqdm import tqdm
 import sys
 from numba import jit
 from itertools import combinations
+from math import factorial
 
 @jit(nopython=True,parallel=False)
 def sample_point( d, sample_size ):
@@ -22,13 +23,13 @@ def limit( beta, tau, d, k ):
     """
     Evaluates the limiting cdf from Theorem 2.1.
     """
-    return np.exp( - tau*np.exp(-beta) / np.math.factorial(k-1) )
+    return np.exp( - tau*np.exp(-beta) / factorial(k-1) )
 
 def corrected_limit(beta, tau, d, k, n):
     """
     Returns the "corrected limit" from Theorem 2.1.
     """
-    correction = tau * np.exp(-beta) * (k-1)*(k-1) * np.log(np.log(n)) / ( np.math.factorial(k-1) * np.log(n) )
+    correction = tau * np.exp(-beta) * (k-1)*(k-1) * np.log(np.log(n)) / ( factorial(k-1) * np.log(n) )
     return np.exp(-correction)*limit(beta,tau,d,k)
 
 @jit(nopython=True)
